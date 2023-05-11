@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ReelIQ</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video-js.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/videojs-markers/0.7.0/videojs.markers.css" rel="stylesheet">
+    <style type="text/css">
+        #example_video{
+            width: 480px;
+            height: 270px;
+        }
+    </style>
+    <style>
+        .btn-group {
+            margin-top: 15px;
+        }
+    </style>
+    <style>
+        .highlight{
+           background-color: #93db63  !important;
+           width:25px !important;
+           border-radius: 10% !important;
+        }
+    </style>
+    <style>
+        #marker-description {
+            width: 640px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<video id="course_video" class="video-js vjs-default-skin" controls preload="metadata" width="640" height="360">
+    <source src="https://d3c33hcgiwev3.cloudfront.net/sQuZhdPHEei3xw56fgKVxg.processed/full/540p/index.webm?Expires=1683936000&Signature=c6srW-cbW4gISMi4mx3pCDqdvXrTFZf6HfgVLK-2hdAnnBwmxjx--sNuFzTPDEl5EdhTq8vsJFUQ-AvgMye19omHuqEb13JnOBmsiXIpphjD85-kLflFWpijt73noznE5s5bo~vtuFYiCup7sm1EQhljmZ0cPi3g5ixWG7zsJMY_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A" type="video/mp4">
+</video>
+
+<div class="btn-group">
+    <button type="button" id="segment-prev"  style="width: 120px;">previous point</button>
+    <button type="button" id="segment-next" style="width: 120px;">next point</button>
+</div>
+
+<div id="marker-description" style="background-color:rgb(204, 179, 248);color:black;font-family:verdana;">
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video.min.js"></script>
+<script src="https://cdn.bootcss.com/videojs-markers/0.7.0/videojs-markers.js"></script>
+<script type="text/javascript">
+    var player = videojs('course_video');
+
+    player.markers({
+        markerStyle:{  
+            'width':'5px',
+               'border-radius': '10%',
+               'background-color': 'red'
+        },
+        markerTip:{
+            display:true,
+             text: function(marker) {
+                return marker.title;
+             }
+        },
+        breakOverlay:{ 
+            display: true,
+            displayTime: 2,
+            style:{
+                color:"black",
+                backgroundColor: "grey",
+                height: "45px",
+                'font-size': '30px'
+            },
+            text: function(marker) {
+                if (marker.class === "highlight") {
+                    return "highlight: " + marker.title;
+                } else {
+                    return marker.title;
+                }
+            }
+        },
+        onMarkerReached:function(marker, index){
+            var $para = $('#marker-description');
+            if (marker.class === "highlight") {
+                $para.text('highlight: ' + marker.summary);
+            } else {
+                $para.text('Summary: ' + marker.summary);
+            }     
+        },
+        onMarkerClick:function(marker,index){
+        },
+        markers:[
+            {
+                time:1.5,
+                title:"Source of Mental Life",
+                summary: "The brain is a complex and surprisingly gross-looking mechanism with an estimated 100 billion neurons, which are the smallest relevant parts that sum up and transmit information. ",
+            },
+            {
+                time:213.68,
+                title:"Neuron Types",
+                summary: "Neurons come in three flavors: sensory, motor, and internal, and communicate with each other through axons and dendrites, with a gap between them known as a synapse. Neurotransmitters are released across the gap. ",
+            },
+            {
+                time:309.840,
+                title:"Neurons communicate with each other through axons and dendrites",
+                summary: "Neurons communicate with each other through axons and dendrites",
+                class: "highlight",
+            },
+            {
+                time:423.840,
+                title:"Neurotransmitter Effects",
+                summary: "Neurotransmitters have different effects on neurons and are used in psychopharmacology to cure diseases, increase pleasure, or help people focus. Drugs like curare, alcohol, amphetamines, and prosak work by influencing neurotransmitters. ",
+            },
+             {
+                time:425.9,
+                title:"Neurotransmitters influence drugs and thinking",
+                summary: "Neurotransmitters influence drugs and thinking",
+                class: "highlight",
+            },
+            {
+                time:653.440,
+                title:"Computational Neuroscience",
+                summary: "Neurons form clusters and networks that lead to thinking, recognizing faces, understanding sentences",
+            },   
+        ],
+    });
+    $("#segment-next").click(function(){
+        player.markers.next();
+    })
+
+
+    $("#segment-prev").click(function(){
+        player.markers.prev();
+    })
+
+</script>
+</body>
+</html>
